@@ -182,7 +182,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const priceMin = firstParam(queryParams.priceMin)
   const priceMax = firstParam(queryParams.priceMax)
 
-  const allPhones = (await prisma.phone.findMany({ orderBy: { createdAt: 'desc' } })).filter(p => !p.isSold)
+  const allPhones = (await prisma.phone.findMany({ orderBy: { createdAt: 'desc' } })).filter((p: Phone) => !p.isSold)
 
   const user = await getCurrentUser()
   const favoritePhoneIds = new Set<number>()
