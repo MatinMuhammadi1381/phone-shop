@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Phone {
+  id          Int       @id @default(autoincrement())
+  brand       String
+  model       String
+  price       Int
+  storage     String
+  ram         String
+  color       String
+  condition   String
+  description String
+  images      String[]
+  isSold      Boolean   @default(false)
+  views       Int       @default(0)
+  section     String?
+  createdAt   DateTime  @default(now())
+
+  requests    PurchaseRequest[]
+  favorites   Favorite[]
+  reviews     Review[]
+  priceAlerts PriceAlert[]
+  viewHistory ViewHistory[]
+}
+
+model PurchaseRequest {
+  id          Int      @id @default(autoincrement())
+  phoneId     Int
+  userId      Int?
+  fullName    String
+  phoneNumber String
+  telegramId  String?
+  message     String?
+  createdAt   DateTime @default(now())
+
+  phone       Phone    @relation(fields: [phoneId], references: [id])
+  user        User?    @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String?   @unique
+  googleId     String?   @unique
+  fullName     String
+  phoneNumber  String?   @unique
+  telegramId   String?
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  sessions     Session[]
+  favorites    Favorite[]
+  requests     PurchaseRequest[]
+  reviews      Review[]
+  priceAlerts  PriceAlert[]
+  viewHistory  ViewHistory[]
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  phoneId   Int
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone     Phone    @relation(fields: [phoneId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, phoneId])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  phoneId   Int
+  userId    Int
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+
+  phone     Phone    @relation(fields: [phoneId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, phoneId])
+}
+
+model PriceAlert {
+  id         Int      @id @default(autoincrement())
+  phoneId    Int
+  userId     Int
+  phoneNumber String?
+  targetPrice Int
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+
+  phone      Phone    @relation(fields: [phoneId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ViewHistory {
+  id        Int      @id @default(autoincrement())
+  phoneId   Int
+  userId    Int
+  viewedAt  DateTime @default(now())
+
+  phone     Phone    @relation(fields: [phoneId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, viewedAt])
+}
