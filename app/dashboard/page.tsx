@@ -171,7 +171,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
               </div>
             ) : (
               <div className="liquid-glass" style={{ overflow: 'hidden' }}>
-                {requests.map((req: { id: number; phone: { id: number; brand: string; model: string }; createdAt: Date }) => (
+                {requests.map((req: { id: number; phone: { id: number; brand: string; model: string; section: string | null; price: number }; createdAt: Date }) => (
                   <Link
                     href={`/phones/${req.phone.id}`}
                     key={req.id}
