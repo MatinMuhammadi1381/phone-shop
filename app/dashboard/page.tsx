@@ -1,11 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import type { PurchaseRequest, Phone } from '@prisma/client'
 import LogoutButton from '../LogoutButton'
 import RecentViews from '../RecentViews'
 import { getCurrentUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import EditProfileForm from './EditProfileForm'
+
+type RequestWithPhone = PurchaseRequest & { phone: Phone }
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
@@ -171,7 +174,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
               </div>
             ) : (
               <div className="liquid-glass" style={{ overflow: 'hidden' }}>
-                {requests.map((req) => (
+                {(requests as RequestWithPhone[]).map((req) => (
                   <Link
                     href={`/phones/${req.phone.id}`}
                     key={req.id}
