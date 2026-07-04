@@ -5,15 +5,10 @@ import LogoutButton from '../LogoutButton'
 import RecentViews from '../RecentViews'
 import { getCurrentUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { CONDITION_STYLES_DETAIL as conditionLabel } from '@/lib/phone-meta'
 import EditProfileForm from './EditProfileForm'
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
-
-const conditionLabel: Record<string, { label: string; color: string }> = {
-  like_new: { label: 'مثل نو', color: '#6fe3a8' },
-  good: { label: 'خوب', color: '#60a5fa' },
-  fair: { label: 'قابل قبول', color: '#fbbf24' },
-}
 
 export default async function DashboardPage({ searchParams }: { searchParams: SearchParams }) {
   const tab = (await searchParams).tab as string | undefined

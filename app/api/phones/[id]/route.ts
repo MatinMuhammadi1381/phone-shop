@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { requireAdmin } from '@/lib/admin-auth'
+import { parsePhoneBody } from '@/lib/phones'
 
 export async function GET(
   request: Request,
@@ -28,10 +29,13 @@ export async function PUT(
   const guard = await requireAdmin()
   if (guard) return guard
   const { id } = await params
-  const body = await request.json()
+
+  const parsed = parsePhoneBody(await request.json())
+  if ('error' in parsed) return parsed.error
+
   const phone = await prisma.phone.update({
     where: { id: Number(id) },
-    data: body
+    data: parsed.data,
   })
   return NextResponse.json(phone)
 }

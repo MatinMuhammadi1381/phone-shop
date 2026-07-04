@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/auth'
+import { CONDITION_STYLES as conditionLabel } from '@/lib/phone-meta'
 import SavePhoneButton from './SavePhoneButton'
 import CompareToggle from './CompareToggle'
 import CompareBar from './CompareBar'
@@ -27,10 +28,9 @@ type Phone = {
   createdAt: Date
 }
 
-const conditionLabel: Record<string, { label: string; color: string; bg: string }> = {
-  like_new: { label: 'مثل نو', color: '#22c55e', bg: '#1e3a2f' },
-  good: { label: 'خوب', color: '#60a5fa', bg: '#1e2a3a' },
-  fair: { label: 'قابل قبول', color: '#f59e0b', bg: '#3a2a1e' },
+const conditionLabelOverride = {
+  // new_box gets a distinct red tint on the home grid
+  new_box: { label: 'اکبند', color: '#ff0000', bg: 'rgb(110, 57, 57)' },
 }
 
 const brandOptions = [
@@ -99,7 +99,7 @@ function PhoneGrid({ phones, showAll = false, favoritePhoneIds, isLoggedIn }: { 
     <div className="phones-grid">
       {displayPhones.map((phone) => {
         const cond = phone.section === 'new_box'
-          ? { label: 'اکبند', color: '#ff0000', bg: 'rgb(110, 57, 57)' }
+          ? conditionLabelOverride.new_box
           : (conditionLabel[phone.condition] ?? conditionLabel.fair)
 
         const badge = phone.section === 'featured'

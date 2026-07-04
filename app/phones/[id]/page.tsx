@@ -8,6 +8,7 @@ import RelatedPhones from './RelatedPhones'
 import TrackView from '../../TrackView'
 import { getCurrentUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { phoneCondition } from '@/lib/phone-meta'
 
 export default async function PhonePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -26,14 +27,7 @@ export default async function PhonePage({ params }: { params: Promise<{ id: stri
     isSaved = Boolean(favorite)
   }
 
-  const conditionLabel: Record<string, { label: string; color: string }> = {
-    like_new: { label: 'مثل نو', color: '#6fe3a8' },
-    good: { label: 'خوب', color: '#60a5fa' },
-    fair: { label: 'قابل قبول', color: '#fbbf24' },
-  }
-  const cond = phone.section === 'new_box'
-    ? { label: 'اکبند', color: '#ef4444' }
-    : (conditionLabel[phone.condition] ?? conditionLabel.fair)
+  const cond = phoneCondition(phone)
 
   const glassCard: React.CSSProperties = {
     background: 'var(--card-bg)',

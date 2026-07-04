@@ -3,6 +3,7 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { conditionLabel } from '@/lib/phone-meta'
 
 type Phone = {
   id: number
@@ -20,10 +21,6 @@ type Phone = {
 }
 
 const STORAGE_KEY = 'tmobile_compare_ids'
-
-const conditionLabel: Record<string, string> = {
-  like_new: 'مثل نو', good: 'خوب', fair: 'قابل قبول',
-}
 
 export default function ComparePage() {
   const [phones, setPhones] = useState<Phone[]>([])
