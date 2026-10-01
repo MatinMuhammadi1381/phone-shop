@@ -1,5 +1,7 @@
 # Phone Shop
 
+**English** · [فارسی](#فارسی)
+
 A full-stack phone marketplace built with Next.js, TypeScript, Prisma, and PostgreSQL. The application provides a Persian-friendly shopping experience for browsing phones, filtering inventory, submitting purchase requests, and managing listings through an admin panel.
 
 ## Features
@@ -29,7 +31,6 @@ A full-stack phone marketplace built with Next.js, TypeScript, Prisma, and Postg
 - React 19
 - TypeScript
 - Prisma 7 with PostgreSQL
-- Supabase packages for server-side integration
 - Cloudinary for image uploads
 - CSS and responsive UI
 
@@ -58,6 +59,7 @@ CLOUDINARY_API_SECRET="your-api-secret"
 GOOGLE_CLIENT_ID="your-client-id"
 GOOGLE_CLIENT_SECRET="your-client-secret"
 GOOGLE_REDIRECT_URI="http://localhost:4000/api/auth/google/callback"
+NEXT_PUBLIC_GOOGLE_CLIENT_ID="your-client-id"
 
 # Optional when the deployed URL cannot be inferred automatically
 NEXT_PUBLIC_APP_URL="http://localhost:4000"
@@ -70,13 +72,13 @@ Google OAuth variables are only needed when Google login is used. Configure the 
 ~~~bash
 git clone https://github.com/MatinMuhammadi1381/phone-shop.git
 cd phone-shop
-npm install
-npx prisma generate
-npx prisma db push
+npm ci
 npm run dev
 ~~~
 
-The development server runs on http://localhost:4000.
+Create `.env` with the required values before installing dependencies: the package's postinstall generates the Prisma client. `DATABASE_URL` must point to a PostgreSQL database for the app to run. On Windows, `INSTALL-DEPENDENCIES.bat` runs the same lockfile-based install.
+
+If you are setting up a new, empty development database, review the Prisma schema and then run `npx prisma db push` yourself. Do not run it against a database containing data you need to keep. The development server runs on http://localhost:4000.
 
 ## Available Scripts
 
@@ -106,3 +108,44 @@ The Prisma schema includes phones, users, sessions, favorites, purchase requests
 ## Deployment Notes
 
 Set all required environment variables in the hosting platform, run the Prisma setup against PostgreSQL, and configure the Google OAuth redirect URI and Cloudinary credentials for the deployed domain.
+
+---
+
+## فارسی
+
+فروشگاه موبایل یک پروژهٔ فول‌استک با Next.js، TypeScript، Prisma و PostgreSQL است. رابط کاربری فارسی‌پسند آن برای مرور و جست‌وجوی گوشی‌ها، مقایسه، ثبت درخواست خرید و مدیریت فهرست کالا طراحی شده است.
+
+### امکانات
+
+- فهرست گوشی‌ها با فیلتر برند، دسته‌بندی، وضعیت، قیمت، حافظه و رنگ
+- صفحهٔ جزئیات، گالری تصویر، گوشی‌های مرتبط، علاقه‌مندی‌ها و مقایسه
+- حساب کاربری، تاریخچهٔ بازدید، دیدگاه و هشدار قیمت
+- فرم درخواست خرید و پنل مدیریت برای افزودن و ویرایش کالاها
+- ورود اختیاری با Google و بارگذاری تصویر از طریق Cloudinary
+
+### فناوری‌ها
+
+Next.js 16 (App Router)، React 19، TypeScript، Prisma 7، PostgreSQL، Cloudinary و CSS واکنش‌گرا.
+
+### پیش‌نیاز و راه‌اندازی
+
+- Node.js نسخهٔ 20.9 یا بالاتر و npm
+- پایگاه‌دادهٔ PostgreSQL؛ آدرس آن را در `DATABASE_URL` قرار دهید
+- برای مدیریت تصویر، متغیرهای Cloudinary؛ برای ورود Google، متغیرهای OAuth مربوط
+- متغیرهای مدیریت (`ADMIN_USERNAME`، `ADMIN_PASSWORD` و `ADMIN_SESSION_SECRET`) را با مقادیر امن و مخصوص خودتان تنظیم کنید. فایل `.env` را هرگز منتشر نکنید.
+
+پس از ساخت `.env` در ریشهٔ پروژه:
+
+~~~bash
+npm ci
+npm run dev
+~~~
+
+در ویندوز می‌توانید به‌جای دستور نصب، `INSTALL-DEPENDENCIES.bat` را اجرا کنید. برنامه روی `http://localhost:4000` اجرا می‌شود. برای پایگاه‌دادهٔ توسعهٔ تازه و خالی، پس از بازبینی طرحواره می‌توان `npx prisma db push` را دستی اجرا کرد؛ این دستور را روی پایگاه‌داده‌ای که دادهٔ مهم دارد اجرا نکنید.
+
+### اسکریپت‌ها و محدودیت‌ها
+
+- `npm run dev` سرور توسعه را اجرا می‌کند.
+- `npm run build` کلاینت Prisma را می‌سازد و نسخهٔ تولید را build می‌کند.
+- `npm run start` نسخهٔ buildشده را اجرا می‌کند و `npm run lint` بررسی ESLint را انجام می‌دهد.
+- امکانات ورود Google و بارگذاری تصویر به تنظیمات سرویس‌های مربوط نیاز دارند.
