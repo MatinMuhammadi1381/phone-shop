@@ -4,6 +4,22 @@
 
 A full-stack phone marketplace built with Next.js, TypeScript, Prisma, and PostgreSQL. The application provides a Persian-friendly shopping experience for browsing phones, filtering inventory, submitting purchase requests, and managing listings through an admin panel.
 
+## Screenshots
+
+The storefront screenshots use local sample records for presentation only; they are not live database content.
+
+**Storefront and filters · فروشگاه و فیلترها**
+
+![Phone shop storefront](docs/screenshots/storefront.png)
+
+**Phone catalog · فهرست گوشی‌ها**
+
+![Phone catalog](docs/screenshots/phone-catalog.png)
+
+**Admin sign-in · ورود مدیر**
+
+![Admin sign-in](docs/screenshots/admin-login.png)
+
 ## Features
 
 ### Storefront
